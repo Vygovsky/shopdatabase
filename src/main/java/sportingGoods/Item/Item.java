@@ -6,13 +6,13 @@ public class Item {
     private long id;
     private String name;
     private int price;
- //   private Category category;
+    private Category category;
 
-    public Item(long id, String name, int price) {
+    public Item(long id, String name, int price, Category category) {
         this.id = id;
         this.name = name;
         this.price = price;
-      //  this.category = category;
+        this.category = category;
     }
 
     public long getId() {
@@ -39,6 +39,14 @@ public class Item {
         this.price = price;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -46,12 +54,14 @@ public class Item {
         Item item = (Item) o;
         return id == item.id &&
                 price == item.price &&
-                Objects.equals(name, item.name);
+                Objects.equals(name, item.name) &&
+                category == item.category;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, price);
+
+        return Objects.hash(id, name, price, category);
     }
 
     @Override
@@ -60,6 +70,7 @@ public class Item {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
+                ", category=" + category +
                 '}';
     }
 }
