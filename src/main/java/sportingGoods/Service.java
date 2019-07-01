@@ -21,19 +21,18 @@ public class Service {
         items.add(new Item(5, "Cross", 150, Category.FOOTWEAR));
     }
 
-    private List<Item> itemToCategory(String numbСategory) {
+    private List<Item> itemToCategory(String numberCategory) {
         List<Item> newListOfCategory = new ArrayList<>();
-        final int startEnumsNumber = 1;
-        for (Item item : items) {
-            if (item.getCategory().ordinal() + startEnumsNumber == Integer.parseInt(numbСategory))
-                System.out.println(item + ", " + "[" + Category.values().length + "] ");
-            newListOfCategory.add(item);
+            final int startEnumsNumber = 1;
+            for (Item item : items) {
+                if (item.getCategory().ordinal() + startEnumsNumber == Integer.parseInt(numberCategory))
+                    System.out.println(item + ", " + "[" + Category.values().length + "] ");
+                newListOfCategory.add(item);
+            }
+            return newListOfCategory;
         }
-        return newListOfCategory;
-    }
 
-
-    private void printCategory() {
+    public void printCategory() {
         int i = 0;
         for (Category categoryOne : Category.values()) {
             System.out.println(++i + " " + categoryOne);
@@ -41,48 +40,64 @@ public class Service {
     }
 
     public void choiceOfCategory() {
-        printCategory();
+      //  printCategory();
         String choiceCategory = scanner.nextLine();
-        while (true) {
-            switch (Integer.parseInt(choiceCategory)) {
-                case 1:
-                    System.out.println("Категория одежда");
-                    recurs();
+        switch (Integer.parseInt(choiceCategory)) {
 
-                    itemToCategory(choiceCategory);
-                    addProductInBucketAndTotalSum();
-
-                    break;
-                case 2:
-                    System.out.println("Категория инветрарь");
-                    itemToCategory(choiceCategory);
-                    addProductInBucketAndTotalSum();
-                    break;
-                case 3:
-                    System.out.println("Категория обувь");
-                    itemToCategory(choiceCategory);
-                    addProductInBucketAndTotalSum();
-                    break;
-                case 4:
-                    System.out.println("Категория кепки/шапки");
-                    itemToCategory(choiceCategory);
-                    addProductInBucketAndTotalSum();
-                    break;
-                default:
-                    System.out.println("Неправильно выбрана категория.\nЕсли желаете покинуть магазин напишите\nYes");
-                    exitFromShop();
-            }
+            case 1:
+                System.out.println("Категория одежда");
+                exitMenuFromClothes();
+                itemToCategory(choiceCategory);
+                addProductInBucketAndTotalSum();
+                exitMenuFromClothes();
+                break;
+            case 2:
+                System.out.println("Категория инветрарь");
+                exitMenuFromInventory();
+                itemToCategory(choiceCategory);
+                addProductInBucketAndTotalSum();
+                exitMenuFromInventory();
+                break;
+            case 3:
+                System.out.println("Категория обувь");
+                itemToCategory(choiceCategory);
+                addProductInBucketAndTotalSum();
+                break;
+            case 4:
+                System.out.println("Категория кепки/шапки");
+                itemToCategory(choiceCategory);
+                addProductInBucketAndTotalSum();
+                break;
+            default:
+                System.out.println("Неправильно выбрана категория.\nЕсли желаете покинуть магазин напишите\nYes");
+                exitFromShop();
         }
+
     }
 
-    private void recurs() {
+    private void exitMenuFromClothes() {
         List<Item> testItems = checkItemsInCategory(Category.CLOTHES);
-        if (testItems.size() == 0) {
-            System.out.println("Нет в наличии!!!");
-            choiceOfCategory();
-        }
+        exitMenu(testItems);
     }
 
+    private void exitMenuFromInventory() {
+        List<Item> testItems = checkItemsInCategory(Category.INVENTORY);
+        exitMenu(testItems);
+    }
+
+    private void exitMenu(List<Item> testItems) {
+        if (testItems.size() == 0) {
+            System.out.println("Категория товаров пуста!!!");
+            String choice = scanner.nextLine();
+            if (choice.equalsIgnoreCase("yes")) {
+                System.exit(0);
+            } else {
+                choiceOfCategory();
+            }
+
+        }
+
+    }
 
  /*   public void startMenuShop() {
         while (true){
