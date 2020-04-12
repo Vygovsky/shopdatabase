@@ -1,18 +1,21 @@
 package sportingGoods.Item;
 
-import java.util.Objects;
-
 public class Item {
     private long id;
     private String name;
     private int price;
+    private int count;
     private Category category;
 
-    public Item(long id, String name, int price, Category category) {
+    public Item(long id, String name, int price, int count, Category category) {
         this.id = id;
         this.name = name;
         this.price = price;
+        this.count = count;
         this.category = category;
+    }
+
+    public Item() {
     }
 
     public long getId() {
@@ -43,6 +46,14 @@ public class Item {
         return category;
     }
 
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
     public void setCategory(Category category) {
         this.category = category;
     }
@@ -51,17 +62,24 @@ public class Item {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Item)) return false;
+
         Item item = (Item) o;
-        return id == item.id &&
-                price == item.price &&
-                Objects.equals(name, item.name) &&
-                category == item.category;
+
+        if (id != item.id) return false;
+        if (price != item.price) return false;
+        if (count != item.count) return false;
+        if (!name.equals(item.name)) return false;
+        return category == item.category;
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(id, name, price, category);
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + name.hashCode();
+        result = 31 * result + price;
+        result = 31 * result + count;
+        result = 31 * result + category.hashCode();
+        return result;
     }
 
     @Override
@@ -70,6 +88,7 @@ public class Item {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
+                ", count=" + count +
                 ", category=" + category +
                 '}';
     }
